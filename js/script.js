@@ -1,5 +1,9 @@
 // variable to select the div with the class of "overview" //
 const overview = document.querySelector(".overview");
+
+// select the unordered list to display the repos list //
+const reposList = document.querySelector(".repo-list");
+
 const username = 'mahelkenn';
 
 // Function to fetch GitHub profile information //
@@ -8,8 +12,6 @@ const getProfile = async function() {
     const profile = await res.json();
     display(profile);
 };
-
-getProfile();
 
 // Function to display the fetched user information on the page //
 const display = function(profile) {
@@ -27,3 +29,23 @@ const display = function(profile) {
         </div> `;
     overview.append(newDiv);
 };
+
+// Function to fetch the repository information from GitHub //
+const getRepos = async function() {
+    const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+    const repos = await repoRes.json();
+    displayRepos(repos);
+};
+
+// Function to display info about repositories //
+const displayRepos = function(repos) {
+    for (let repo of repos) {
+        li = document.createElement("li");
+        li.classList.add("repo");
+        li.innerHTML = `<h3>${repo.name}</h3>`;
+        reposList.append(li);
+    };
+};
+
+getProfile();
+getRepos();
