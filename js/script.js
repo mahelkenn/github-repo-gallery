@@ -56,9 +56,39 @@ const displayRepos = function(repos) {
 getProfile();
 getRepos();
 
+// Function to listen for click on repository name //
 const repoList = reposList.addEventListener("click", function(e) {
     if (e.target.matches("h3")) {
         const repoName = e.target.innerText;
-        console.log(repoName);
+        getRepoDetails(repoName);
     };
 });
+
+// Function to get specific repository details //
+const getRepoDetails = async function(repoName) {
+    const repoDetailRes = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
+    const repoInfo = await repoDetailRes.json();
+    console.log(repoInfo);
+    // Function to fetch languages info for specific repo //
+    const fetchLanguages = await fetch(repoInfo.languages_url);
+    const languageData = await fetchLanguages.json();
+    const languages = [];
+    for (let language in languageData) {
+        languages.push(language);
+    };
+    displayRepoInfo(repoInfo, languages);
+};
+
+// Function to Display Specific Repo Info //
+const displayRepoInfo = function (repoInfo, languages) {
+    repoData.innerHTML = "";
+    const div = document.createElement("div");
+    div.innerHTML = `<h3>Name: ${repoInfo.name}</h3>
+        <p>Description: ${repoInfo.description}</p>
+        <p>Default Branch: ${repoInfo.default_branch}</p>
+        <p>Languages: ${languages.join(", ")}</p>
+        <a class="visit" href="${repoInfo.svn_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
+    repoData.append(div);
+    repoData.classList.remove("hide");
+    repoSection.classList.add("hide");
+};
