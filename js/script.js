@@ -10,6 +10,12 @@ const repoSection = document.querySelector(".repos");
 // selects the section with a class of "repo-data" where the individual repo data will appear //
 const repoData = document.querySelector(".repo-data");
 
+// select the "Back to the Repo Gallery" button //
+const viewReposButton = document.querySelector(".view-repos");
+
+// select the "Search by Name" placeholder //
+const filterInput = document.querySelector("filter-repos");
+
 const username = 'mahelkenn';
 
 // Function to fetch GitHub profile information //
@@ -68,7 +74,6 @@ const repoList = reposList.addEventListener("click", function(e) {
 const getRepoDetails = async function(repoName) {
     const repoDetailRes = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
     const repoInfo = await repoDetailRes.json();
-    console.log(repoInfo);
     // Function to fetch languages info for specific repo //
     const fetchLanguages = await fetch(repoInfo.languages_url);
     const languageData = await fetchLanguages.json();
@@ -91,4 +96,11 @@ const displayRepoInfo = function (repoInfo, languages) {
     repoData.append(div);
     repoData.classList.remove("hide");
     repoSection.classList.add("hide");
+    viewReposButton.classList.remove("hide");
 };
+
+const viewRepos = viewReposButton.addEventListener("click", function() {
+    repoSection.classList.remove("hide");
+    repoData.classList.add("hide");
+    viewReposButton.classList.add("hide");
+});
