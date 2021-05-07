@@ -4,6 +4,12 @@ const overview = document.querySelector(".overview");
 // select the unordered list to display the repos list //
 const reposList = document.querySelector(".repo-list");
 
+// selects the section with a class of "repos" where all repo information appears //
+const repoSection = document.querySelector(".repos");
+
+// selects the section with a class of "repo-data" where the individual repo data will appear //
+const repoData = document.querySelector(".repo-data");
+
 const username = 'mahelkenn';
 
 // Function to fetch GitHub profile information //
@@ -40,7 +46,7 @@ const getRepos = async function() {
 // Function to display info about repositories //
 const displayRepos = function(repos) {
     for (let repo of repos) {
-        li = document.createElement("li");
+        const li = document.createElement("li");
         li.classList.add("repo");
         li.innerHTML = `<h3>${repo.name}</h3>`;
         reposList.append(li);
@@ -49,3 +55,10 @@ const displayRepos = function(repos) {
 
 getProfile();
 getRepos();
+
+const repoList = reposList.addEventListener("click", function(e) {
+    if (e.target.matches("h3")) {
+        const repoName = e.target.innerText;
+        console.log(repoName);
+    };
+});
