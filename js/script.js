@@ -18,6 +18,8 @@ const filterInput = document.querySelector(".filter-repos");
 
 const username = 'mahelkenn';
 
+let searchInput = [];
+
 // Function to fetch GitHub profile information //
 const getProfile = async function() {
     const res = await fetch(`https://api.github.com/users/${username}`);
@@ -110,14 +112,23 @@ const viewRepos = viewReposButton.addEventListener("click", function() {
 // Function to search for specific repo //
 const search = filterInput.addEventListener("input", function(e) {
     const searchValue = e.data;
-    console.log(searchValue);
-    const allRepos = document.querySelectorAll(".repo");
-    const lowerSearchValue = searchValue.toLowerCase();
-    for (let oneRepo of allRepos) {
-        let title = oneRepo.innerText.toLowerCase();
-        if (!title.includes(lowerSearchValue)) {
-            oneRepo.classList.add("hide")
-            console.log(`${title} does not contain ${lowerSearchValue}`);
+    if (e.inputType === "deleteContentBackward") {
+        let removed = searchInput.pop();
+        
         }
     }
+    else if (searchValue !== null) {
+        const lowerSearchValue = searchValue.toLowerCase();
+        searchInput.push(lowerSearchValue);
+        console.log(searchInput);
+        const allRepos = document.querySelectorAll(".repo");
+        for (let oneRepo of allRepos) {
+            let title = oneRepo.innerText.toLowerCase();
+            let searchString = searchInput.join("");
+            if (!title.includes(searchString)) {
+                oneRepo.classList.add("hide")
+            }
+        }
+    }
+    else {end};
 });
