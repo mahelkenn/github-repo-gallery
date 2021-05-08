@@ -14,7 +14,7 @@ const repoData = document.querySelector(".repo-data");
 const viewReposButton = document.querySelector(".view-repos");
 
 // select the "Search by Name" placeholder //
-const filterInput = document.querySelector("filter-repos");
+const filterInput = document.querySelector(".filter-repos");
 
 const username = 'mahelkenn';
 
@@ -51,6 +51,7 @@ const getRepos = async function() {
 
 // Function to display info about repositories //
 const displayRepos = function(repos) {
+    filterInput.classList.remove("hide");
     for (let repo of repos) {
         const li = document.createElement("li");
         li.classList.add("repo");
@@ -99,8 +100,24 @@ const displayRepoInfo = function (repoInfo, languages) {
     viewReposButton.classList.remove("hide");
 };
 
+// Function to return to list of repos from repo details //
 const viewRepos = viewReposButton.addEventListener("click", function() {
     repoSection.classList.remove("hide");
     repoData.classList.add("hide");
     viewReposButton.classList.add("hide");
+});
+
+// Function to search for specific repo //
+const search = filterInput.addEventListener("input", function(e) {
+    const searchValue = e.data;
+    console.log(searchValue);
+    const allRepos = document.querySelectorAll(".repo");
+    const lowerSearchValue = searchValue.toLowerCase();
+    for (let oneRepo of allRepos) {
+        let title = oneRepo.innerText.toLowerCase();
+        if (!title.includes(lowerSearchValue)) {
+            oneRepo.classList.add("hide")
+            console.log(`${title} does not contain ${lowerSearchValue}`);
+        }
+    }
 });
