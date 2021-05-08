@@ -112,23 +112,26 @@ const viewRepos = viewReposButton.addEventListener("click", function() {
 // Function to search for specific repo //
 const search = filterInput.addEventListener("input", function(e) {
     const searchValue = e.data;
+    const allRepos = document.querySelectorAll(".repo");
     if (e.inputType === "deleteContentBackward") {
         let removed = searchInput.pop();
-        
-        }
+        for (let oneRepo of allRepos) {
+            let title = oneRepo.innerText.toLowerCase();
+            let searchString = searchInput.join("");
+            if (title.includes(searchString)) {
+                oneRepo.classList.remove("hide")
+            };
+        };
     }
     else if (searchValue !== null) {
         const lowerSearchValue = searchValue.toLowerCase();
         searchInput.push(lowerSearchValue);
-        console.log(searchInput);
-        const allRepos = document.querySelectorAll(".repo");
         for (let oneRepo of allRepos) {
             let title = oneRepo.innerText.toLowerCase();
             let searchString = searchInput.join("");
             if (!title.includes(searchString)) {
                 oneRepo.classList.add("hide")
-            }
-        }
-    }
-    else {end};
+            };
+        };
+    };
 });
