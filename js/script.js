@@ -24,7 +24,6 @@ let searchInput = [];
 const getProfile = async function() {
     const res = await fetch(`https://api.github.com/users/${username}`);
     const profile = await res.json();
-    console.log(profile);
     display(profile);
 };
 
@@ -40,7 +39,7 @@ const display = function(profile) {
           <p><strong>Name:</strong> ${profile.name}</p>
           <p><strong>Bio:</strong> ${profile.bio}</p>
           <p><strong>Visit Profile: </strong><a href="${profile.html_url}" target="_blank">GitHub</a></p>
-          <p><strong>Number of public repos:</strong></p>
+          <p><strong>Number of public repos:</strong> ${profile.public_repos}</p>
         </div> `;
     overview.append(newDiv);
 };
